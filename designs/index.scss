@@ -1,0 +1,30 @@
+@use './variables.scss';
+@use './post.scss';
+@use './markdown.scss';
+
+html, body {
+  max-width: 100%;
+}
+
+body {
+  color: var(--text-color-primary);
+  background-color: var(--bg-color);
+  transition: all .3s;
+}
+
+ul, ol, li {
+  margin: 0;
+  padding: 0;
+  // list-style: none;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: all .5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  transform: translateX(-100%);
+  opacity: 0;
+}
