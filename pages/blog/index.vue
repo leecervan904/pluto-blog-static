@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center px-20px">
-    <div class="w-1200px max-w-1200px">
+    <div class="w-1200px max-w-1200px" v-if="!pending">
       <header class="my-50px">
         <h1 class="text-center">
           Welcome to my Blog!
@@ -21,26 +21,25 @@
         </div>
       </section>
 
-      <section class="my-30px md:flex md:gap-x-20px">
+      <section v-if="!pending" class="my-30px md:flex md:gap-x-20px">
         <div class="w-full md:flex-1">
-          <!-- <pre>{{ content }}</pre> -->
           <NuxtLink
-            v-for="post in data?.slice(0, 6)"
+            v-for="post in data"
             #default="{ navigate }"
-            :to="post._path"
+            :to="`/blog/${post.id}`"
             custom
           >
             <BlogPostCard
               class="[&:not(:last-child)]:mb-20px"
-              @navigate="navigate"
               :post="post"
+              @navigate="navigate"
             />
           </NuxtLink>
 
           <BlogPagination class="mt-50px" v-model="page" :pages="38" />
         </div>
 
-        <aside class="
+        <aside v-if="!pending" class="
           display-none md:display-block md:w-3/10
           box-border p-20px
           lee-shadow bg-var(--bg-color) rounded
@@ -63,23 +62,13 @@ const sortList = [
 const active = ref('all')
 const limit = ref(10)
 const page = ref(1)
-// const data = shallowRef<any[]>([])
-
-const getData = async () => {
-}
-
-const { data } = await useAsyncData(
-  () => queryContent('blog')
-  .limit(limit.value)
-  .skip((page.value - 1) * limit.value)
-  .sort({
-    date: -1,
-  })
-  .find()
-)
 
 const handleChangeSort = (item: typeof sortList[number]) => {
   active.value = item.value
 }
+
+const { data: data2, pending } = await useFetch('/api/getArticle')
+const data = computed(() => pending.value ? [] : data2.value.result?.data)
+console.log(data2.value.result.data)
 // const { data: navigation } = await useAsyncData('navigation', () => fetchContentNavigation())
 </script>

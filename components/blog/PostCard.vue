@@ -39,10 +39,6 @@ export default defineNuxtComponent({
     const { breakpoints } = useBreakpoint()
     const isSingleItem = computed(() => breakpoints.smaller('tablet').value)
 
-    watchEffect(() => {
-      // console.log(isSingleItem.value)
-    })
-
     return {
       isSingleItem
     }

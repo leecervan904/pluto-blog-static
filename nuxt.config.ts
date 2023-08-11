@@ -54,6 +54,7 @@ export default defineNuxtConfig({
   imports: {
     dirs: [
       'store',
+      'utils/transform/**'
     ],
   },
 })
